@@ -1,3 +1,0 @@
-spring.application.name: cloudserver
-spring.profiles.active: test
-encrypt.key: Thisismysecretkey

@@ -1,11 +1,13 @@
-server.port: 7001
+server.port: 7002
+spring.application.name: cloud-config-server
+encrypt.key: sssdjkfjaklsssdjkfjaklsssdjkfjaklsssdjkfjakl
 
 #配置Git仓库的地址
 #配置仓库路径下的相对搜索位置，可以配置多个
 spring.cloud.config.label: master
-spring.cloud.config.server.git.uri: https://github.com/renchenglin/spring-cloud/
+spring.cloud.config.server.git.uri: https://github.com/renchenglin/spring-cloud
 spring.cloud.config.profile: test
-spring.cloud.config.server.git.search-paths: server-config
+#spring.cloud.config.server.git.search-paths: spring-cloud-config/server-config
 #这里配置你的Git仓库的用户名
 spring.cloud.config.server.git.username: 317438587@qq.com
 #这里配置你的Git仓库的密码
