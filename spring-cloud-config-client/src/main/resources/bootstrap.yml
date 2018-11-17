@@ -5,8 +5,21 @@ eureka.client.serviceUrl.defaultZone: http://localhost:1111/eureka
 spring.cloud.config.label: master
 spring.cloud.config.profile: test
 #spring.cloud.config.uri= http://localhost:7001/
+
 spring.cloud.config.discovery.enabled: true
+#通过serviceId指定配置中心
 spring.cloud.config.discovery.serviceId: cloud-config-server
+
+#下一间隔的乘数，默认为1.1
+spring.cloud.config.retry.initial-interval: 2
+#最大间隔时间，默认为2000毫秒，单位是毫秒
+spring.cloud.config.retry.max-interval: 2000
+#最大重试次数，默认为6
+spring.cloud.config.retry.max-attempts: 6
+#初始重试间隔时间，默认为1000毫秒，单位是毫秒
+spring.cloud.config.retry.multiplier: 1000
+#快速失败响应,当config server连接不上时，快速响应客户端
+spring.cloud.config.fail-fast: true
 
 management.endpoints.web.exposure.include: '*'
 management.endpoints.web.exposure.exclude: env

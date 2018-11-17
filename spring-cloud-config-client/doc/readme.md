@@ -13,6 +13,24 @@
 
 *	5、及时：配置信息更新时，必须能及时通知到使用该配置的应用程序，进行配置更新。
 
+#config server
 
+*	/{application}/{profile}[/{label}]
 
+*	[/{label}]/{}-{}.yml
+
+*	[/{label}]/{application}-{profile}.properties
+
+#高可用配置中心
+将config server作为一个普通的微服务，纳入到Eureka的服务治理体系中，这样我们的配置客户端就可以通过配置中心的服务名来获取配置信息。
+
+#动态更新
+在使用配置的微服务中增加actuator监控模块，通过POST /actuator/refresh 接口进行刷新
+```
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+```
+在注入属性的类加上@RefreshScope注解
 
