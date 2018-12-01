@@ -1,0 +1,20 @@
+package com.rules
+import com.example.drools.domain.Message
+dialect  "mvel"
+
+rule "Hello World"
+    dialect "mvel"
+    when
+        m : Message(status.equals(Message.HELLO), message : message )
+    then
+        System.out.println( message);
+    modify ( m ) { message = "Goodbye cruel world!!!",status = Message.GOODBYE };
+end
+
+rule "Good Bye"
+    dialect "java"
+    when
+       Message( status == Message.GOODBYE, message : message )
+    then
+        System.out.println( message );
+end

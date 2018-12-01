@@ -1,5 +1,8 @@
 package com.example.demo.po;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection="customer")  
 public class Customer {
 	
 	private String id;
