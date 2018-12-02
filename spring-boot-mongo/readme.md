@@ -243,11 +243,13 @@ docker exec -it mongo-0 mongo admin
 rs.initiate( {
     _id : "rs0",
     members: [
-       { _id: 0, host: "172.17.0.2:27017" },
-       { _id: 1, host: "172.17.0.3:27017" },
-       { _id: 2, host: "172.17.0.4:27017" }
+       { _id: 0, host: "172.17.0.2:27017",priority:1 },
+       { _id: 1, host: "172.17.0.3:27017",priority:2 },
+       { _id: 2, host: "172.17.0.4:27017",arbiterOnly:true }
     ]
  })
+ 
+ 特别注意的是，对于仲裁节点，需要有个特别的配置——arbiterOnly:true。这个千万不能少了，不然主备模式就不能生效
  
  并确保在当前节点是primary节点时，创建用户root用户
 use admin
@@ -275,4 +277,5 @@ https://blog.csdn.net/u010010606/article/details/79701772
 https://www.linuxidc.com/Linux/2017-03/142379.htm
 https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/
 https://blog.csdn.net/wisfy_21/article/details/82470149
+http://blog.51cto.com/11905606/2175033
 
