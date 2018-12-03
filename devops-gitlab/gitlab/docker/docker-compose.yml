@@ -2,7 +2,7 @@ version: '3'
 services:
   gitlab-ce:
     restart: always
-    image: registry.cn-qingdao.aliyuncs.com/wod/sameersbn-gitlab:11.4.5
+    image: gitlab/gitlab-ce:latest
     ports:
       - 443:443
       - 80:80
@@ -10,4 +10,4 @@ services:
     volumes:
       - /root/gitlab/config:/etc/gitlab
       - /root/gitlab/logs:/var/log/gitlab
-      - /root/data:/var/opt/gitlab
+      - /root/gitlab/data:/var/opt/gitlab
