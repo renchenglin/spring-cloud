@@ -18,3 +18,6 @@ https://segmentfault.com/a/1190000006120164
 
 SonarQube代码审查
 https://blog.csdn.net/qq_27520051/article/details/80552220
+
+git操作手册
+https://git-scm.com/book/zh/v2
