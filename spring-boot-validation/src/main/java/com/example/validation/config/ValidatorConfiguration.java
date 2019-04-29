@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.validation.Validator;
 
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
+import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
+import org.hibernate.validator.spi.resourceloading.ResourceBundleLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,19 +47,28 @@ public class ValidatorConfiguration {
     	return validator;*/
     	LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
 //    	方式一
-    	try {
-    		validator.setValidationMessageSource(messageSource);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	
-    	validator.setMessageInterpolator(new MessageInterpolator());
+//    	try {
+//    		validator.setValidationMessageSource(messageSource);
+//    	} catch (Exception e) {
+//    		e.printStackTrace();
+//    	}
+    	validator.setMessageInterpolator(new MessageInterpolator(new PlatformResourceBundleLocator("i18n/messages_validate" )));
 //    	方式二
     	return validator;
     }
     
     
     private class MessageInterpolator extends ResourceBundleMessageInterpolator {
+    	@SuppressWarnings("unused")
+		MessageInterpolator(){
+    		
+    	}
+    	
+    	MessageInterpolator(ResourceBundleLocator resourceBundleLocator){
+    		super(resourceBundleLocator);
+    	}
+
+    	
     	@Override
     	public String interpolate(String message, Context context, Locale locale) {
     		// 获取注解类型

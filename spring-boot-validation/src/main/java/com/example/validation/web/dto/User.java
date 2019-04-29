@@ -9,10 +9,10 @@ import com.example.validation.web.validator.CheckCase;
 
 public class User {
 	@Size(min = 6,max = 16)
-    @NotNull(message = "{userId}{demo.validation.constraints.NotNull.message}")
+    @NotNull(message = "{userId}{javax.validation.constraints.NotNull.message}")
     private String userId;
 	
-	@CheckCase(value = CaseMode.LOWER,message = "{userName}{demo.validation.constraints.CheckCase.LOWER.message}")
+	@CheckCase(value = CaseMode.LOWER,message = "{userName}")
 	private String userNameLower;
 
 	public String getUserId() {
