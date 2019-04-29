@@ -3,7 +3,6 @@ package com.example.validation.web;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -74,7 +73,7 @@ public class UserController {
 	
 	@PostMapping("/save")
     @ApiOperation(value = "用户管理-添加用户", code = 200)
-    public User save(@RequestBody @Valid User user) {
+    public User save(@RequestBody @Validated User user) {
         return user;
     }
 	
