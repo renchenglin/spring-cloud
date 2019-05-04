@@ -3,9 +3,11 @@ package com.example.demo.dynDatasource;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect
+@Order(-1)// 保证该AOP在@Transactional之前执行
 @Component
 public class DataSourceAop {
 
