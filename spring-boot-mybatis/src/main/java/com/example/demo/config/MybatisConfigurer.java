@@ -1,18 +1,27 @@
 
 package com.example.demo.config;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.example.demo.dynDatasource.DBTypeEnum;
+import com.example.demo.dynDatasource.MyRoutingDataSource;
 import com.github.pagehelper.PageHelper;
 
 @Configuration
@@ -22,8 +31,37 @@ import com.github.pagehelper.PageHelper;
 								 **/
 public class MybatisConfigurer {
 	
-	@Resource
-	private DataSource dataSource;
+	@Bean
+    @ConfigurationProperties("spring.datasource.hikari.master")
+    public DataSource masterDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @ConfigurationProperties("spring.datasource.hikari.slave1")
+    public DataSource slave1DataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @ConfigurationProperties("spring.datasource.hikari.slave2")
+    public DataSource slave2DataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    public DataSource myRoutingDataSource(@Qualifier("masterDataSource") DataSource masterDataSource,
+                                          @Qualifier("slave1DataSource") DataSource slave1DataSource,
+                                          @Qualifier("slave2DataSource") DataSource slave2DataSource) {
+        Map<Object, Object> targetDataSources = new HashMap<>();
+        targetDataSources.put(DBTypeEnum.MASTER, masterDataSource);
+        targetDataSources.put(DBTypeEnum.SLAVE1, slave1DataSource);
+        targetDataSources.put(DBTypeEnum.SLAVE2, slave2DataSource);
+        MyRoutingDataSource myRoutingDataSource = new MyRoutingDataSource();
+        myRoutingDataSource.setDefaultTargetDataSource(masterDataSource);
+        myRoutingDataSource.setTargetDataSources(targetDataSources);
+        return myRoutingDataSource;
+    }
 	
 	//配置mybatis的分页插件pageHelper
     @Bean
@@ -38,14 +76,22 @@ public class MybatisConfigurer {
         return pageHelper;
     }
     
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("myRoutingDataSource") DataSource myRoutingDataSource) throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(myRoutingDataSource);
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:com/example/*/mapper/*.xml"));
+        return sqlSessionFactoryBean.getObject();
+    }
+    
     /**
 	 * 配合注解完成事物管理
 	 * 
 	 * @return
 	 */
 	@Bean
-	public PlatformTransactionManager annotationDrivenTransactionManager() {
-		return new DataSourceTransactionManager(dataSource);
+	public PlatformTransactionManager annotationDrivenTransactionManager(@Qualifier("myRoutingDataSource") DataSource myRoutingDataSource) {
+		return new DataSourceTransactionManager(myRoutingDataSource);
 	}
     
 //    @Bean
