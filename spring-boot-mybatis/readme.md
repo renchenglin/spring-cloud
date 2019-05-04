@@ -5,3 +5,6 @@ set sql_mode='NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES';
 alter table t_user modify id bigint(20)  auto_increment;
 alter table t_user  auto_increment=10000; 
 
+# mybatis generator 参考
+
+https://www.cnblogs.com/maanshancss/p/6027999.html
