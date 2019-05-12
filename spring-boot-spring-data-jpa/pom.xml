@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>spring-boot-zookeeper</artifactId>
+	<artifactId>spring-boot-spring-data-jpa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-boot-zookeeper</name>
+	<name>spring-boot-spring-data-jpa</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -19,6 +19,10 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -31,25 +35,28 @@
 		</dependency>
 		
 		<dependency>
-		    <groupId>org.apache.zookeeper</groupId>
-		    <artifactId>zookeeper</artifactId>
-		    <version>3.4.14</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.apache.curator/curator-framework -->
-<dependency>
-    <groupId>org.apache.curator</groupId>
-    <artifactId>curator-framework</artifactId>
-    <version>4.2.0</version>
-</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.curator/curator-recipes -->
-<dependency>
-    <groupId>org.apache.curator</groupId>
-    <artifactId>curator-recipes</artifactId>
-    <version>4.2.0</version>
-</dependency>
-		
-		
+		<!--swagger-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.9</version>
+		</dependency>
+        
 	</dependencies>
 
 	<build>
